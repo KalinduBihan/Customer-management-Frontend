@@ -3,44 +3,64 @@ import { getAllCustomers, deleteCustomer } from "../api/customerApi";
 import { useNavigate } from "react-router-dom";
 
 export default function CustomersPage() {
-  const [data, setData] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const nav = useNavigate();
 
   const load = async () => {
     const res = await getAllCustomers();
-    setData(res.data);
+    setCustomers(res.data);
   };
 
   useEffect(() => { load(); }, []);
 
   return (
-    <div>
-      <h1>Customers</h1>
+    <div className="p-6 bg-gray-100 min-h-screen">
+      
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Customers</h1>
+        <button
+          onClick={() => nav("/create")}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
+        >
+          + Add Customer
+        </button>
+      </div>
 
-      <button onClick={() => nav("/create")}>Add</button>
-
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>NIC</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {data.map(c => (
-            <tr key={c.id}>
-              <td>{c.name}</td>
-              <td>{c.nic}</td>
-              <td>
-                <button onClick={() => nav(`/customer/${c.id}`)}>View</button>
-                <button onClick={() => deleteCustomer(c.id).then(load)}>Delete</button>
-              </td>
+      <div className="bg-white rounded-xl shadow overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-gray-200 text-left">
+            <tr>
+              <th className="p-3">Name</th>
+              <th className="p-3">NIC</th>
+              <th className="p-3">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {customers.map(c => (
+              <tr key={c.id} className="border-t hover:bg-gray-50">
+                <td className="p-3 font-medium">{c.name}</td>
+                <td className="p-3">{c.nic}</td>
+                <td className="p-3 space-x-2">
+                  <button
+                    onClick={() => nav(`/customer/${c.id}`)}
+                    className="text-blue-600 hover:underline"
+                  >
+                    View
+                  </button>
+                  <button
+                    onClick={() => deleteCustomer(c.id).then(load)}
+                    className="text-red-600 hover:underline"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+      </div>
     </div>
   );
 }

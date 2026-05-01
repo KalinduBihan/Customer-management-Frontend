@@ -22,27 +22,43 @@ export default function CreateCustomer() {
   };
 
   return (
-    <form onSubmit={submit}>
-      <h2>Create Customer</h2>
+    <div className="p-6 bg-gray-100 min-h-screen flex justify-center">
+      
+      <form onSubmit={submit} className="bg-white p-6 rounded-xl shadow w-full max-w-xl">
 
-      <input placeholder="Name"
-        onChange={(e)=>setForm({...form,name:e.target.value})}
-      />
+        <h2 className="text-xl font-bold mb-4">Create Customer</h2>
 
-      <input type="date"
-        onChange={(e)=>setForm({...form,dateOfBirth:e.target.value})}
-      />
+        <input
+          placeholder="Name"
+          className="w-full border p-2 rounded mb-3"
+          onChange={(e)=>setForm({...form,name:e.target.value})}
+        />
 
-      <input placeholder="NIC"
-        onChange={(e)=>setForm({...form,nic:e.target.value})}
-      />
+        <input
+          type="date"
+          className="w-full border p-2 rounded mb-3"
+          onChange={(e)=>setForm({...form,dateOfBirth:e.target.value})}
+        />
 
-      <AddressForm
-        addresses={form.addresses}
-        setAddresses={(a)=>setForm({...form,addresses:a})}
-      />
+        <input
+          placeholder="NIC"
+          className="w-full border p-2 rounded mb-4"
+          onChange={(e)=>setForm({...form,nic:e.target.value})}
+        />
 
-      <button type="submit">Save</button>
-    </form>
+        <AddressForm
+          addresses={form.addresses}
+          setAddresses={(a)=>setForm({...form,addresses:a})}
+        />
+
+        <button
+          type="submit"
+          className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
+        >
+          Save Customer
+        </button>
+
+      </form>
+    </div>
   );
 }
